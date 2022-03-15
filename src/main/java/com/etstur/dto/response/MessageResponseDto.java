@@ -1,4 +1,4 @@
-package com.etstur.etsturtask.dto.response;
+package com.etstur.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

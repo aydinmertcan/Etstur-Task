@@ -1,22 +1,23 @@
-package com.etstur.etsturtask.controller;
+package com.etstur.controller;
 
-import com.etstur.etsturtask.dto.response.FileSaveResponseDto;
-import com.etstur.etsturtask.dto.response.MessageResponseDto;
-import com.etstur.etsturtask.repository.entity.Media;
-import com.etstur.etsturtask.service.MediaService;
+import com.etstur.dto.response.MessageResponseDto;
+import com.etstur.service.MediaService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.view.RedirectView;
 
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,18 +32,27 @@ public class MediaController {
         String path = "C:\\Users\\user\\Documents\\Etstur\\" + file.getOriginalFilename();
         System.out.println(file.getSize());
         try(OutputStream out = new FileOutputStream(new File(path))) {
-            out.write(file.getBytes());
-            service.store(file,path);
 
+            if(isValidExtension(file)) {
+                out.write(file.getBytes());
+                service.store(file,path);
+                message = "File is successfully uploaded " + file.getOriginalFilename();
+                return ResponseEntity.status(HttpStatus.OK).body(MessageResponseDto.builder().message(message).build());
+            } else {
+                throw new Exception();
+            }
 
-            message = "File is successfully uploaded " + file.getOriginalFilename();
-            return ResponseEntity.status(HttpStatus.OK).body(MessageResponseDto.builder().message(message).build());
         } catch (Exception e) {
             message = "File could not be uploaded " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(MessageResponseDto.builder().message(message).build());
         }
     }
 
+    private boolean isValidExtension(MultipartFile file) {
+        List<String> extensions = Arrays.asList("png", "jpeg", "jpg", "docx", "pdf", "xlsx");
+        String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+        return extensions.contains(extension);
+    }
 
 
 }

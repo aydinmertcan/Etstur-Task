@@ -1,4 +1,4 @@
-package com.etstur.etsturtask;
+package com.etstur;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

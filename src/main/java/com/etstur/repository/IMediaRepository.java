@@ -1,6 +1,6 @@
-package com.etstur.etsturtask.repository;
+package com.etstur.repository;
 
-import com.etstur.etsturtask.repository.entity.Media;
+import com.etstur.repository.entity.Media;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

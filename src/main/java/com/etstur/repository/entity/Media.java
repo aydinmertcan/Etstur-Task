@@ -1,4 +1,4 @@
-package com.etstur.etsturtask.repository.entity;
+package com.etstur.repository.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
