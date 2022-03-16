@@ -17,8 +17,8 @@ public class MediaService {
 
     private final IMediaRepository repository;
 
-    public void store(MultipartFile file, String path) throws IOException {
-        repository.save(Media.builder()
+    public Media store(MultipartFile file, String path) throws IOException {
+        return repository.save(Media.builder()
                         .name(file.getOriginalFilename())
                         .type(FilenameUtils.getExtension(file.getOriginalFilename()))
                         .file(file.getBytes())
@@ -27,8 +27,8 @@ public class MediaService {
                 .build());
     }
 
-    public void update(MultipartFile file, String path, long id) throws IOException {
-        repository.save(Media.builder()
+    public Media update(MultipartFile file, String path, long id) throws IOException {
+        return repository.save(Media.builder()
                         .id(id)
                         .name(file.getOriginalFilename())
                         .type(FilenameUtils.getExtension(file.getOriginalFilename()))
@@ -45,7 +45,6 @@ public class MediaService {
     public Optional<Media> findById(Long id) {
         return repository.findById(id);
     }
-
 
 
     public void delete(Media media) {

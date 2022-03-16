@@ -1,6 +1,7 @@
 package com.etstur.controller;
 
 import com.etstur.config.security.JwtTokenManager;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +20,8 @@ public class UserController {
     private final JwtTokenManager manager;
 
     @GetMapping("/token")
+    @Operation(summary = "'admin' kullanıcısı için JWT token üretir.")
     public ResponseEntity<String> generateToken() throws InvalidKeySpecException, NoSuchAlgorithmException {
-
         return ResponseEntity.ok().body(manager.createToken("admin").get());
     }
 }
