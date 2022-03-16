@@ -1,37 +1,42 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "../App.css";
-import { useFormik } from "formik";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
+import { getToken, setAuthorizationHeader } from "../api/ApiCalls";
+import Alert from "react-bootstrap/Alert";
 function Login() {
-  const formik = useFormik({
-    initialValues: {
-      username: "",
-    },
-    onSubmit: (values) => {
-      console.log(values);
-    },
-  });
+  let navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [error, setError] = useState();
+  const [isLogin, setIsLogin] = useState(false);
+
+  const submission = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await getToken(username);
+      response.data && setAuthorizationHeader(response.data);
+      navigate("/home");
+    } catch (error) {
+      console.log(error.response);
+      setError(error.response.data);
+    }
+  };
 
   return (
     <div className="container">
       <div className="row">
         <div className="col-md-3"></div>
         <div className="col-md-6 mt-5 loginborder shadow-lg">
-          <form onSubmit={formik.handleSubmit}>
-            <h3>Log in</h3>
-
+          <h3>Log in</h3>
+          <form onSubmit={(e) => submission(e)}>
             <Form.Floating className="mb-3">
               <Form.Control
                 id="floatingInputCustom"
                 type="username"
                 name="username"
-                value={formik.values.email}
                 placeholder="username"
-                onChange={formik.handleChange}
+                onChange={(e) => setUsername(e.target.value)}
               />
               <label htmlFor="floatingInputCus">Username</label>
             </Form.Floating>
@@ -41,6 +46,21 @@ function Login() {
                 Login
               </Button>
             </div>
+            {error && (
+              <Alert
+                variant="danger"
+                onClose={() => setError(undefined)}
+                dismissible
+                className="mt-3"
+              >
+                <Alert.Heading>Bir hatayla karşılaştık</Alert.Heading>
+                <p>
+                  {error.validationErrors
+                    ? error.validationErrors.username
+                    : error.message}
+                </p>
+              </Alert>
+            )}
           </form>
         </div>
       </div>
