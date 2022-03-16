@@ -13,17 +13,18 @@ import java.util.List;
 @Service
 public class JwtUserDetail implements UserDetailsService {
 
-
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return null;
     }
 
-    public UserDetails loadUsername(String profileId){
+    public UserDetails loadUsername(String username){
             List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-            grantedAuthorities.add(new SimpleGrantedAuthority("USER"));
-            return new User(profileId, "", true,
-                    true, true, true, grantedAuthorities);
+            if(username.equals("admin")) {
+                grantedAuthorities.add(new SimpleGrantedAuthority("USER"));
+                return new User(username, "", true,
+                        true, true, true, grantedAuthorities);
+            }
+            return null;
     }
 }

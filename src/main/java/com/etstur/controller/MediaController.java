@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/media")
 @SecurityRequirement(name = "bearerAuth")
+@CrossOrigin
 public class MediaController {
 
     private final MediaService service;
@@ -49,7 +50,7 @@ public class MediaController {
     @PostMapping(value ="/save", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Eklenen dosyanın local'de ve database'de kayıt işlemini gerçekleştirir.")
     public ResponseEntity<FileInfoResponseDto> uploadFile(@RequestParam MultipartFile file) {
-        String filePath = PATH + file.getOriginalFilename();
+        String filePath = PATH  + file.getOriginalFilename();
         try(OutputStream out = new FileOutputStream(new File(filePath))) {
 
             if(isValidExtension(file)) {
@@ -57,11 +58,12 @@ public class MediaController {
                 Media media = service.store(file, filePath);
                 return ResponseEntity.status(HttpStatus.OK).body(new FileInfoResponseDto(media));
             } else {
+
                 throw new Exception("Error occured at " + filePath);
             }
 
         } catch (Exception e) {
-
+            e.printStackTrace();
             throw new RuntimeException( "File could not be uploaded " + file.getOriginalFilename());
         }
     }
@@ -92,7 +94,7 @@ public class MediaController {
 
     private boolean isValidExtension(MultipartFile file) {
         List<String> extensions = Arrays.asList("png", "jpeg", "jpg", "docx", "pdf", "xlsx");
-        String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+        String extension = FilenameUtils.getExtension(file.getOriginalFilename().toLowerCase());
         return extensions.contains(extension);
     }
 
