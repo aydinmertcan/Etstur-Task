@@ -16,19 +16,14 @@ import java.io.Serializable;
 @Entity
 @Table(name = "tbl_media")
 public class Media implements Serializable {
-    /*
-    *  Bu api dosyaları, isimlerini, uzantılarını bir rest endpoint aracılığı ile almalı,
-    *  dosyayı uygulamanın çalıştığı sunucu üzerinde dosya sistemine kayıt etmeli,
-    *  dosyanın bulunduğu path, boyutu, ismi, uzantısını ilişkisel bir veritabanında tutmalıdır.
-     * */
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    @Column(name = "name", unique = false )
     private String name;
     private long size;
     private String type;
     private String path;
     @Lob
-    private byte[] photo;
+    private byte[] file;
 }
