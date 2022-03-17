@@ -11,12 +11,14 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class FileInfoResponseDto {
+    private long id;
     private String name;
     private String type;
     private String path;
     private long size;
 
     public FileInfoResponseDto(Media media) {
+        this.id = media.getId();
         this.name = media.getName();
         this.type = media.getType();
         this.path = media.getPath();

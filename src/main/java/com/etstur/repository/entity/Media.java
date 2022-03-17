@@ -19,7 +19,7 @@ public class Media implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @Column(name = "name", unique = false )
+    @Column(name = "name", unique = true)
     private String name;
     private long size;
     private String type;

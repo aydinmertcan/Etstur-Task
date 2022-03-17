@@ -15,7 +15,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping("/user")
 @SecurityRequirement(name = "bearerAuth")
-@CrossOrigin
+
 public class UserController {
     private final JwtTokenManager manager;
 
