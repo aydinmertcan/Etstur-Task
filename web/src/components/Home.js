@@ -8,12 +8,23 @@ import {
   updateFile,
 } from "../api/ApiCalls";
 import Form from "react-bootstrap/Form";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const [files, setFiles] = useState([]);
   const [file, setFile] = useState("");
   const [error, setError] = useState("");
+
+  const accessToken = localStorage.getItem("access_token");
+
   let response;
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    if (!accessToken || accessToken === null) {
+      return navigate("/");
+    }
+  }, [accessToken]);
 
   const loadFiles = async () => {
     await getAllFiles().then((res) => setFiles(res.data));
@@ -22,6 +33,7 @@ function Home() {
   useEffect(() => {
     loadFiles();
   }, [response]);
+
   const onChangeFile = (event) => {
     if (event.target.files.length < 1) {
       return;
@@ -41,8 +53,7 @@ function Home() {
 
   const deleteBtnClick = async (e) => {
     const { name } = e.target;
-    response = name;
-    await deleteFile(name);
+    response = await deleteFile(name);
   };
 
   const updateBtnClick = async (e) => {
