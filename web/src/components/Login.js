@@ -9,7 +9,6 @@ function Login() {
   let navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [error, setError] = useState();
-  const [isLogin, setIsLogin] = useState(false);
 
   const submission = async (e) => {
     e.preventDefault();

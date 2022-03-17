@@ -15,3 +15,15 @@ export const setAuthorizationHeader = (token) => {
 export const getAllFiles = () => {
   return axios.get(URL.GETALLFILES);
 };
+
+export const uploadFile = (file) => {
+  const formData = new FormData();
+  formData.append("file", file);
+  return axios
+    .post(URL.UPLOADFILE, formData, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    })
+    .then((data) => console.log(data));
+};

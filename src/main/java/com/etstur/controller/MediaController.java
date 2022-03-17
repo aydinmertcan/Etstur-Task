@@ -49,7 +49,7 @@ public class MediaController {
 
     @PostMapping(value ="/save", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Eklenen dosyanın local'de ve database'de kayıt işlemini gerçekleştirir.")
-    public ResponseEntity<FileInfoResponseDto> uploadFile(@RequestParam MultipartFile file) {
+    public ResponseEntity<FileInfoResponseDto> uploadFile(@RequestBody MultipartFile file) {
         String filePath = PATH  + file.getOriginalFilename();
         try(OutputStream out = new FileOutputStream(new File(filePath))) {
 
