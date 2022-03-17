@@ -2,10 +2,9 @@
 
 ## Table of Contents
 
-- [Installation](#yükleme)
-- [Demo Link](#demo)
-- [Getting Started](#başlarken)
-- [Screen Shots](#ekran kayıtları)
+- [Yükleme](#yükleme)
+- [Demo](#demo)
+- [Başlarken](#başlarken)
 
 ## Yükleme
 
